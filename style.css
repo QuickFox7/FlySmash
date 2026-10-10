@@ -1,0 +1,902 @@
+body {
+    margin: 0; /* 要素の外側の余白 */
+    overflow: hidden; /* はみ出した要素を隠す、スクロールを無効化 */
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+/* 上：ゲーム画面（title:100%, game:60%） */
+#gameContainer {
+    height: 100vh;
+    position: relative;
+    background: #eef;
+    overflow: hidden;
+    transition:height 0.8s ease;
+}
+
+#flyBackGround {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+#veranda {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 画面を埋める */
+    object-position: center; /* 中央基準で切り抜き */
+    display: block;
+}
+
+#ramune {
+    position: absolute;
+    width: 60px;
+    left: 35%;
+    bottom: 30%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+
+    filter: drop-shadow(0 8px 8px rgba(0,0,0,0.25));
+}
+
+#plate {
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    bottom: 15%;
+    transform: translateX(-50%);
+    z-index: 15;
+    pointer-events: none;
+
+    filter: drop-shadow(0 8px 8px rgba(0,0,0,0.25));
+}
+
+#watermelon {
+    position: absolute;
+    width: 228px;
+    left: 50%;
+    bottom: calc(15% + 28.2px);
+    transform: translateX(-50%);
+    z-index: 20;
+    pointer-events: none;
+
+    filter: drop-shadow(1px 6px 5px rgba(0,0,0,0.8));
+}
+
+#splashCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 30;
+}
+
+#eatDisplayCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 40;
+}
+
+#raidBanner {
+    position: absolute;
+    inset: 0;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    z-index: 100;
+    pointer-events: none;
+}
+
+#raidBannerText {
+    padding: 18px 50px;
+
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: bold;
+    color: white;
+
+    background: rgba(213, 117, 0, 0.75);
+    border: 3px solid white;
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow: 0 0 20px rgba(213, 117, 0, 0.5);
+}
+
+#raidBannerIcon {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.raidWarning {
+    width: min(80%, 600px);
+    padding: 7px 0;
+
+    text-align: center;
+    font-size: clamp(16px, 3vw, 26px);
+    font-weight: bold;
+    letter-spacing: 4px;
+
+    color: white;
+
+    background: repeating-linear-gradient(
+        -45deg,
+        #ffffff00 0px,
+        #ffffff00 12px,
+        #D57500 12px,
+        #D57500 24px
+    );
+
+    background-size: 34px 34px;
+
+    animation: warningStripe 0.5s linear infinite;
+
+    border: 2px solid white;
+    box-sizing: border-box;
+}
+
+/* 上：右方向 */
+.raidWarningTop {
+    animation: warningStripeRight 0.5s linear infinite;
+}
+
+/* 下：左方向 */
+.raidWarningBottom {
+    animation: warningStripeLeft 0.5s linear infinite;
+}
+
+.raidWarning span {
+    animation: warningTextBlink 0.6s steps(1) infinite;
+}
+
+@keyframes warningTextBlink {
+    0%, 50% {
+        opacity: 1;
+    }
+
+    51%, 100% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes warningStripeRight {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 34px 0;
+    }
+}
+
+@keyframes warningStripeLeft {
+    from {
+        background-position: 34px 0;
+    }
+    to {
+        background-position: 0 0;
+    }
+}
+
+#raidClearBanner {
+    position: absolute;
+    inset: 0;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    z-index: 100;
+    pointer-events: none;
+}
+
+#raidClearBannerText {
+    padding: 18px 50px;
+
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: bold;
+    color: white;
+
+    background: rgba(0, 128, 0, 0.75);
+    border: 3px solid white;
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow: 0 0 20px rgba(0, 128, 0, 0.5);
+}
+
+#raidClearBannerIcon {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+#comboBorder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+#comboBorderRect {
+    fill: none;
+    stroke: #ff9800;
+    stroke-width: 8;
+    stroke-linecap: round;
+    filter:
+        drop-shadow(0 0 4px rgba(255,150,0,0.8));
+    transition:
+        stroke 0.2s linear;
+}
+
+.fly {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    cursor: pointer;
+    z-index: 50;
+}
+
+.toughFly {
+    width: 72px;
+    height: 72px;
+}
+
+.flyHPBar {
+    position: absolute;
+    width: 72px;
+    height: 7px;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid white;
+    border-radius: 5px;
+    box-sizing: border-box;
+    z-index: 51;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.flyHPBarFill {
+    width: 100%;
+    height: 100%;
+    background: #ff3333;
+    transition: width 0.1s linear;
+}
+
+.flyClone{
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    z-index: 45;
+    pointer-events: none;
+}
+
+.cat-paw {
+    position: absolute;
+    width: 160px; /* 叩くときに75%(120px) */
+    height: auto; /* 1280px */
+    z-index: 60; /* 重なり順(UIの後ろ) */
+    pointer-events: none; /* クリックを邪魔しない */
+    transform: translate(-50%, -50%); /* 指定座標に中心寄せ */
+    opacity: 0; /* 透明度(0 or 1) */
+    transition: 
+        opacity 0.1s ease-in, /* 透明度変更を 0.1 秒, 遅→速 */
+        transform 0.1s ease-in;
+}
+
+.comboText {
+    position: absolute;
+    white-space: nowrap;
+    font-size: 25px;
+    font-weight: bold;
+    color: black;
+    text-shadow:
+        -2px -2px 0 white,
+        2px -2px 0 white,
+        -2px  2px 0 white,
+        2px  2px 0 white,
+        0px  0px 8px rgba(255,255,255,0.8);
+    z-index: 55;
+    pointer-events: none;
+    transform: translate(-50%, -50%); /* 指定座標に中心寄せ */
+    opacity: 0;
+    transition: 
+        opacity 0.4s ease, /* 透明度変更を 0.4 秒, ふわっと */
+        transform 0.4s ease;
+}
+
+/* 下：flappy（title:0, game:40%） */
+#flappyContainer {
+    position: relative;
+    height: 0;
+    width: 100vw;
+    overflow: hidden;
+    background: #fafafa;
+    transition:height 0.8s ease;
+}
+#flappyBgSpace {
+    position: absolute;
+    inset: 0; /* 親要素いっぱい */
+    background:hsl(240, 100%, 20%);
+    z-index: 0;
+}
+#flappyStars {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+}
+#flappyBgSky {
+    position: absolute;
+    inset: 0; /* 親要素いっぱい */
+    background: linear-gradient(
+        to bottom, /* 上から下へのグラデーション */
+        #1b1b2f 0%,
+        #4b6cb7 40%,
+        #87ceeb 70%,
+        #cce6ff 100%
+    );
+    z-index: 20;
+}
+#flappyChar {
+    position: absolute;
+    height: 120px;
+    width: 80px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 80;
+}
+#flappyGround {
+    position: absolute;
+    top: 50%;       /* 地面の高さ */
+    left: 0;
+    width: 100%;
+    height: 2px;        /* 線なので細く */
+    background: #333;
+    z-index: 30;
+}
+#flappyWind {
+    position: absolute;
+    inset: 0; /* 親要素いっぱい */
+    pointer-events: none;
+    z-index: 40;
+}
+#flappyScore {
+    position: absolute;
+    left: 60%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(3px);
+
+    border: 1px solid rgb(100, 100, 100);
+
+    color: black;
+
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.1);
+
+    text-shadow:
+        -2px -2px 0 white,
+        2px -2px 0 white,
+        -2px  2px 0 white,
+        2px  2px 0 white,
+        0px  0px 8px rgba(255,255,255,0.8);
+
+    padding:4px 10px;
+    border-radius:10px;
+
+    font-size:20px;
+    font-weight:bold;
+
+    white-space:nowrap;
+    
+    z-index: 70;
+}
+
+#flappyHigh{
+    position:absolute;
+    top:50%;
+    left:0;
+    width:100%;
+    z-index:60;
+    pointer-events:none;
+}
+/* 通常（赤） */
+.high-normal #flappyHighLine{
+    width:100%;
+    height:2px;
+    background:#ff4444;
+}
+.high-normal #flappyHighLabel{
+    position:absolute;
+    left:40%;
+    top:0;
+
+    transform:translate(-50%, -50%);
+
+    background:rgba(255,80,80,0.9);
+    color:white;
+
+    padding:4px 10px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+/* 更新中（金） */
+.high-updating #flappyHighLine{
+    width:100%;
+    height:2px;
+    background:gold;
+}
+.high-updating #flappyHighLabel{
+    position:absolute;
+    left:40%;
+    top:0;
+
+    transform:translate(-50%, -50%);
+
+    background:linear-gradient(45deg, gold, orange);
+    color:#222;
+
+    padding:4px 10px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+#flappyHighIndicator{
+    position:absolute;
+    top:52px;
+    left:60%;
+    transform:translateX(-50%);
+    background:rgba(0,0,0,0.6);
+    color:white;
+
+    padding:6px 12px;
+    border-radius:20px;
+
+    font-size:14px;
+    font-weight:bold;
+
+    z-index:20;
+    pointer-events:none;
+    display:none;
+}
+
+#flappyBest{
+    position:absolute;
+    top:50%;
+    left:0;
+    width:100%;
+    z-index:60;
+    pointer-events:none;
+}
+/* 通常（赤） */
+.best-normal #flappyBestLine{
+    width:100%;
+    height:2px;
+    background:#ff4444;
+}
+.best-normal #flappyBestLabel{
+    position:absolute;
+    left:40%;
+    top:0;
+
+    transform:translate(-50%, -50%);
+
+    background:rgba(255,80,80,0.9);
+    color:white;
+
+    padding:4px 10px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+/* 更新中（金） */
+.best-updating #flappyBestLine{
+    width:100%;
+    height:2px;
+    background:gold;
+}
+.best-updating #flappyBestLabel{
+    position:absolute;
+    left:40%;
+    top:0;
+
+    transform:translate(-50%, -50%);
+
+    background:linear-gradient(45deg, gold, orange);
+    color:#222;
+
+    padding:4px 10px;
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+#flappyBestIndicator{
+    position:absolute;
+    top:10px;
+    left:60%;
+    transform:translateX(-50%);
+    background:rgba(0,0,0,0.6);
+    color:white;
+
+    padding:6px 12px;
+    border-radius:20px;
+
+    font-size:14px;
+    font-weight:bold;
+
+    z-index:20;
+    pointer-events:none;
+    display:none;
+}
+
+#timer{
+    display:none;
+    position:absolute;
+    top:20px;
+    right:20px;
+
+    width:100px;
+    height:100px;
+
+    z-index:99;
+}
+
+#timerSvg{
+    width:100%;
+    height:100%;
+}
+
+#timerBg{
+    fill:none;
+    stroke:rgba(255,255,255,0.2);
+    stroke-width:8;
+}
+
+#timerGauge{
+    fill:none;
+    stroke:#00e5ff;
+    stroke-width:8;
+    stroke-linecap:round;
+
+    transform:rotate(-90deg);
+    transform-origin:center;
+}
+
+#timerText{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:28px;
+    font-weight:bold;
+
+    color:white;
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,0.8);
+}
+
+#hitPointContainer{
+    display:none;
+    position:absolute;
+    top:20px;
+    right:20px;
+    
+    text-align:center;
+
+    z-index:99;
+}
+
+#hitPointText{
+    margin-bottom:4px;
+    font-size:24px;
+    font-weight:bold;
+
+    color:red;
+}
+
+#hitPointIcon{
+    font-size:32px;
+    margin-top:4px;
+}
+
+#gameHomeButton{
+    top:10px;
+    left:10px;
+}
+
+#resultScreen{
+    position:fixed;
+    inset:0;
+
+    display:none; /* 初期状態では非表示 */
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+
+    background:
+        rgba(0, 0, 0, 0.35);
+    backdrop-filter:blur(6px);
+
+    z-index:1000;
+}
+
+#resultTitle{
+    font-size:56px;
+    font-weight:bold;
+    color:white;
+
+    text-shadow:
+        0 0 20px rgba(255,255,255,0.5);
+}
+
+#resultScore{
+    font-size:40px;
+    color:white;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.5);
+}
+
+#resultBest{
+    font-size:28px;
+    color:white;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.5);
+}
+
+#resultNewRecord{
+    font-size:28px;
+    color:gold;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.5);
+}
+
+#resultHomeButton{
+    position:relative;
+}
+
+.homeButton{
+    position:absolute;
+
+    padding:6px 12px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+
+    background:rgba(255,255,255,0.8);
+    color:#333;
+
+    font-size:14px;
+    font-weight:bold;
+
+    z-index:100;
+}
+
+/* タイトル画面 */
+#titleScreen{
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    overflow-x:hidden;
+    overflow-y:auto;
+    box-sizing:border-box;
+    padding:12px 0;
+    background:rgba(0, 0, 0, 0.35);
+    backdrop-filter:blur(6px);
+
+    z-index:1000;
+}
+
+/* 説明カード以外のUI */
+#titleHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+    transform-origin: top center;
+}
+
+#titleLogo{
+    font-size:64px;
+    font-weight:bold;
+    color:white;
+
+    text-shadow:
+        0 0 20px rgba(255,255,255,0.5);
+    white-space:nowrap;
+}
+
+#modeSelector{
+    display: flex;
+    align-items: center; /* 垂直方向の中央揃え */
+    justify-content: center; /* 水平方向の中央揃え */
+    gap: 20px;
+}
+
+#modeDisplay{
+    font-size: 24px;
+    color: white;
+    min-width: 220px;
+    text-align: center; /* テキストを中央揃え */
+    white-space: nowrap;
+}
+
+#startButton{
+    font-size:32px;
+    padding:14px 40px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    background:linear-gradient(180deg, #fff8, #fff3);
+    backdrop-filter:blur(4px);
+    color:white;
+}
+
+#titleBest{
+    font-size:18px;
+    color:white;
+    text-shadow:0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* 説明カード：800pxまでは200px固定、800～600pxで滑らかに縮小 */
+#titleGuide{
+    display:flex;
+    align-items:center;
+    gap:clamp(0px, 2.5vw, 20px);
+    margin:20px 0;
+    flex-shrink:0;
+}
+
+.guideCard{
+    box-sizing:border-box;
+    width:clamp(150px, 25vw, 200px);
+    height:clamp(150px, 25vw, 200px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:rgba(255,255,255,0.15);
+    flex-shrink:0;
+    backdrop-filter:blur(4px);
+    border-radius:20px;
+    color:white;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.guideIcon{
+    font-size:clamp(36px, 6vw, 48px);
+    margin-bottom:clamp(8px, 1.875vw, 15px);
+}
+
+.guideIconImg{
+    width:clamp(48px, 8vw, 64px);
+    height:clamp(48px, 8vw, 64px);
+    object-fit:contain;
+}
+
+.guideTitle{
+    font-size:clamp(15px, 2.5vw, 20px);
+    font-weight:bold;
+    line-height:1.35;
+}
+
+.guideArrow{
+    font-size:clamp(30px, 5vw, 40px);
+    font-weight:bold;
+    color:white;
+    text-shadow:0 0 20px rgba(255, 255, 255, 0.5);
+    animation: arrowMove 1s ease-in-out infinite;
+    flex-shrink:0;
+}
+
+@keyframes arrowMove{
+    0%{
+        transform: translateX(-5px);
+    }
+    50%{
+        transform: translateX(5px);
+    }
+    100%{
+        transform: translateX(-5px);
+    }
+}
+
+/* 幅600px未満：説明カードは200pxサイズで縦並び。画面はスクロール可能 */
+@media (max-width: 599px) {
+    #titleScreen {
+        justify-content: flex-start;
+    }
+
+    #titleGuide {
+        flex-direction: column;
+        gap: 12px;
+        margin: 8px 0 20px;
+    }
+
+    .guideCard {
+        width: 200px;
+        height: 200px;
+    }
+
+    .guideIcon {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+
+    .guideIconImg {
+        width: 64px;
+        height: 64px;
+    }
+
+    .guideTitle {
+        font-size: 20px;
+    }
+
+    .guideArrow {
+        font-size: 32px;
+        animation: arrowMoveVertical 1s ease-in-out infinite;
+        transform: rotate(90deg);
+    }
+
+    @keyframes arrowMoveVertical {
+        0%, 100% {
+            translate: 0 -5px;
+        }
+        50% {
+            translate: 0 5px;
+        }
+    }
+}
