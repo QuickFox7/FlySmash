@@ -709,100 +709,6 @@
             position:relative;
         }
 
-        #titleScreen{
-            position:fixed;
-            inset:0;
-
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-            gap:20px;
-
-            background:
-                rgba(0, 0, 0, 0.35);
-            backdrop-filter:blur(6px);
-
-            z-index:1000;
-        }
-
-        #titleLogo{
-            font-size:64px;
-            font-weight:bold;
-            color:white;
-
-            text-shadow:
-                0 0 20px rgba(255,255,255,0.5);
-        }
-
-        #modeSelector{
-            display: flex;
-            align-items: center; /* 垂直方向の中央揃え */
-            justify-content: center; /* 水平方向の中央揃え */
-            gap: 20px;
-        }
-
-        #modeDisplay{
-            font-size: 24px;
-            color: white;
-            min-width: 220px;
-            text-align: center; /* テキストを中央揃え */
-        }
-
-        #startButton{
-            font-size:32px;
-
-            padding:
-                14px 40px;
-            border:none;
-            border-radius:20px;
-            cursor:pointer;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #fff8,
-                    #fff3
-                );
-            backdrop-filter:blur(4px);
-            color:white;
-        }
-
-        #titleBest{
-            font-size:18px;
-            color:white;
-
-            text-shadow:
-                0 0 10px rgba(255,255,255,0.5);
-        }
-
-        #titleGuide{
-            display:flex;
-            gap:20px;
-            margin:20px 0;
-        }
-
-        .guideCard{
-            width:200px;
-            height:200px;
-
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-
-            background:rgba(255,255,255,0.15);
-            backdrop-filter:blur(4px);
-
-            border-radius:20px;
-
-            color:white;
-            text-align:center;
-
-            box-shadow:
-                0 4px 12px rgba(0,0,0,0.2);
-        }
-
         .homeButton{
             position:absolute;
 
@@ -820,31 +726,128 @@
             z-index:100;
         }
 
-        .guideIcon{
-            font-size:48px;
-            margin-bottom:15px;
+        /* タイトル画面 */
+        #titleScreen{
+            position:fixed;
+            inset:0;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            gap:20px;
+            overflow-x:hidden;
+            overflow-y:auto;
+            box-sizing:border-box;
+            padding:12px 0;
+            background:rgba(0, 0, 0, 0.35);
+            backdrop-filter:blur(6px);
+
+            z-index:1000;
         }
 
-        .guideIconImg{
-            width:64px;
-            height:64px;
-            object-fit:contain;
+        /* 説明カード以外のUI */
+        #titleHeader{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            flex-shrink: 0;
+            transform-origin: top center;
         }
 
-        .guideTitle{
-            font-size:20px;
-            font-weight:bold;
-        }
-
-        .guideArrow{
-            font-size:40px;
+        #titleLogo{
+            font-size:64px;
             font-weight:bold;
             color:white;
 
             text-shadow:
                 0 0 20px rgba(255,255,255,0.5);
+            white-space:nowrap;
+        }
 
+        #modeSelector{
+            display: flex;
+            align-items: center; /* 垂直方向の中央揃え */
+            justify-content: center; /* 水平方向の中央揃え */
+            gap: 20px;
+        }
+
+        #modeDisplay{
+            font-size: 24px;
+            color: white;
+            min-width: 220px;
+            text-align: center; /* テキストを中央揃え */
+            white-space: nowrap;
+        }
+
+        #startButton{
+            font-size:32px;
+            padding:14px 40px;
+            border:none;
+            border-radius:20px;
+            cursor:pointer;
+            background:linear-gradient(180deg, #fff8, #fff3);
+            backdrop-filter:blur(4px);
+            color:white;
+        }
+
+        #titleBest{
+            font-size:18px;
+            color:white;
+            text-shadow:0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* 説明カード：800pxまでは200px固定、800～600pxで滑らかに縮小 */
+        #titleGuide{
+            display:flex;
+            align-items:center;
+            gap:clamp(0px, 2.5vw, 20px);
+            margin:20px 0;
+            flex-shrink:0;
+        }
+
+        .guideCard{
+            box-sizing:border-box;
+            width:clamp(150px, 25vw, 200px);
+            height:clamp(150px, 25vw, 200px);
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            background:rgba(255,255,255,0.15);
+            flex-shrink:0;
+            backdrop-filter:blur(4px);
+            border-radius:20px;
+            color:white;
+            text-align:center;
+            box-shadow:0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .guideIcon{
+            font-size:clamp(36px, 6vw, 48px);
+            margin-bottom:clamp(8px, 1.875vw, 15px);
+        }
+
+        .guideIconImg{
+            width:clamp(48px, 8vw, 64px);
+            height:clamp(48px, 8vw, 64px);
+            object-fit:contain;
+        }
+
+        .guideTitle{
+            font-size:clamp(15px, 2.5vw, 20px);
+            font-weight:bold;
+            line-height:1.35;
+        }
+
+        .guideArrow{
+            font-size:clamp(30px, 5vw, 40px);
+            font-weight:bold;
+            color:white;
+            text-shadow:0 0 20px rgba(255, 255, 255, 0.5);
             animation: arrowMove 1s ease-in-out infinite;
+            flex-shrink:0;
         }
 
         @keyframes arrowMove{
@@ -856,6 +859,53 @@
             }
             100%{
                 transform: translateX(-5px);
+            }
+        }
+
+        /* 幅600px未満：説明カードは200pxサイズで縦並び。画面はスクロール可能 */
+        @media (max-width: 599px) {
+            #titleScreen {
+                justify-content: flex-start;
+            }
+
+            #titleGuide {
+                flex-direction: column;
+                gap: 12px;
+                margin: 8px 0 20px;
+            }
+
+            .guideCard {
+                width: 200px;
+                height: 200px;
+            }
+
+            .guideIcon {
+                font-size: 48px;
+                margin-bottom: 15px;
+            }
+
+            .guideIconImg {
+                width: 64px;
+                height: 64px;
+            }
+
+            .guideTitle {
+                font-size: 20px;
+            }
+
+            .guideArrow {
+                font-size: 32px;
+                animation: arrowMoveVertical 1s ease-in-out infinite;
+                transform: rotate(90deg);
+            }
+
+            @keyframes arrowMoveVertical {
+                0%, 100% {
+                    translate: 0 -5px;
+                }
+                50% {
+                    translate: 0 5px;
+                }
             }
         }
 
@@ -957,19 +1007,18 @@
 
     <!-- タイトル画面 -->
     <div id="titleScreen">
-        <div id="titleLogo">Fly Smash</div>
+        <div id="titleHeader">
+            <div id="titleLogo">Fly Smash</div>
 
-        <div id="modeSelector">
-            <button id="modePrev">◀</button>
-
-            <div id="modeDisplay">
-                ∞ エンドレス
+            <div id="modeSelector">
+                <button id="modePrev">◀</button>
+                <div id="modeDisplay">∞ エンドレス</div>
+                <button id="modeNext">▶</button>
             </div>
 
-            <button id="modeNext">▶</button>
+            <button id="startButton">START</button>
+            <div id="titleBest">BEST : 0</div>
         </div>
-        <button id="startButton">START</button>
-        <div id="titleBest">BEST : 0</div>
 
         <div id="titleGuide">
             <div class="guideCard">
@@ -996,9 +1045,18 @@
             </div>
         </div>
     </div>
-</div>
 
 <script>
+
+// 説明カード以外のタイトルUIは、幅400pxを基準にそれ以下で比例縮小する
+const titleHeader = document.getElementById("titleHeader");
+function resizeTitleHeader() {
+    const scale = Math.min(1, window.innerWidth / 400);
+    titleHeader.style.transform = `scale(${scale})`;
+    titleHeader.style.marginBottom = `${-(1 - scale) * titleHeader.offsetHeight}px`;
+}
+window.addEventListener("resize", resizeTitleHeader);
+resizeTitleHeader();
 
 let gameState = "title"; // title, playing, result
 let gameMode = "endless"; // endless, timeAttack, survival
