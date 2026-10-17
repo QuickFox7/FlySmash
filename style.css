@@ -1,3 +1,7 @@
+html {
+    touch-action: manipulation;
+}
+
 body {
     margin: 0; /* 要素の外側の余白 */
     overflow: hidden; /* はみ出した要素を隠す、スクロールを無効化 */
@@ -6,6 +10,9 @@ body {
 }
 
 img {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
     -webkit-user-drag: none;
 }
 
