@@ -62,28 +62,28 @@ function resizeSplashCanvas() {
 
     splashCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
 }
-const COLOR = [255,70,70];
+const COLOR = [255, 70, 70];
 const GRAV = 0.18;
 const particles = [];
 // 細かいしぶきの粒
 class Speck {
-	constructor(x, y, vx, vy, r) {
-		this.x = x; this.y = y;
-		this.vx = vx; this.vy = vy;
-		this.r = r;
-		this.life = 1;
-		this.decay = 0.012 + Math.random() * 0.02;
-	}
-	update() {
-		this.vy += GRAV * 0.8;
-		this.x += this.vx;
-		this.y += this.vy;
-		this.vx *= 0.99;
-		this.life -= this.decay;
-	}
-	draw() {
-		const radius = this.r * this.life;
-		if (radius <= 0) return;
+    constructor(x, y, vx, vy, r) {
+        this.x = x; this.y = y;
+        this.vx = vx; this.vy = vy;
+        this.r = r;
+        this.life = 1;
+        this.decay = 0.012 + Math.random() * 0.02;
+    }
+    update() {
+        this.vy += GRAV * 0.8;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vx *= 0.99;
+        this.life -= this.decay;
+    }
+    draw() {
+        const radius = this.r * this.life;
+        if (radius <= 0) return;
 
         splashCtx.beginPath();
         splashCtx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.9)`;
@@ -109,9 +109,9 @@ function spawnJuiceSpecks(x, y) {
             new Speck(
                 x,
                 y,
-                (Math.random()-0.5)*4,
-                -Math.random()*4,
-                3+Math.random()*1.5
+                (Math.random() - 0.5) * 4,
+                -Math.random() * 4,
+                3 + Math.random() * 1.5
             )
         );
     }
@@ -235,10 +235,9 @@ function updateModeDisplay() {
     modeDisplay.textContent = modes[modeIndex].name;
 
     titleBest.textContent =
-        `BEST : ${
-            Math.floor(
-                bestScores[modes[modeIndex].id]
-            )
+        `BEST : ${Math.floor(
+            bestScores[modes[modeIndex].id]
+        )
         }`;
 }
 
@@ -394,16 +393,16 @@ let zoomHoldingDuration = 0; // ズーム完了から戻り始めるまでの時
 
 const windList = [];
 
-function spawnWind(scoreVel,deltaTime) {
+function spawnWind(scoreVel, deltaTime) {
     if (scoreVel === 0) return;
 
     const power = Math.abs(scoreVel);
 
-    const spawnRate = Math.min(12*power, 600); // 1秒あたりの本数
-    const count = Math.floor(spawnRate*deltaTime); // 1フレームあたりの本数
+    const spawnRate = Math.min(12 * power, 600); // 1秒あたりの本数
+    const count = Math.floor(spawnRate * deltaTime); // 1フレームあたりの本数
     const W = windCanvas.width;
     const H = windCanvas.height;
-    const maxRange = Math.sqrt(W*W + H*H); // エリアの対角線の長さ
+    const maxRange = Math.sqrt(W * W + H * H); // エリアの対角線の長さ
     const extraX = (maxRange - W) / 2;
     const extraY = (maxRange - H) / 2;
 
@@ -428,9 +427,9 @@ function drawWind(scoreVel, deltaTime) {
     wctx.save();
 
     // 中心回転
-    wctx.translate(windCanvas.width/2, windCanvas.height/2);
+    wctx.translate(windCanvas.width / 2, windCanvas.height / 2);
     wctx.rotate(-flappyAngle);
-    wctx.translate(-windCanvas.width/2, -windCanvas.height/2);
+    wctx.translate(-windCanvas.width / 2, -windCanvas.height / 2);
     for (let i = windList.length - 1; i >= 0; i--) {
         const w = windList[i];
 
@@ -438,8 +437,8 @@ function drawWind(scoreVel, deltaTime) {
         w.t += deltaTime;
 
         const length = Math.abs(scoreVel) * 10;
-        const opacity = Math.max(0, 
-            1 - Math.abs(w.t - w.d/2) / (w.d/2)
+        const opacity = Math.max(0,
+            1 - Math.abs(w.t - w.d / 2) / (w.d / 2)
         ); // 透明度が、0 → 1 → 0
 
         wctx.strokeStyle = `rgba(255,255,255,${opacity})`;
@@ -581,7 +580,7 @@ function showCatPaw(x, y, flyObj, isToughFly) {
 
     paw.style.left = x + "px";
     paw.style.top = y + "px";
-    paw.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${angle - Math.PI/2}rad)`;
+    paw.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${angle - Math.PI / 2}rad)`;
     flyClone.style.left = x + "px";
     flyClone.style.top = y + "px";
     flyClone.style.transform = `translate(-50%, -50%) rotate(${flyObj.angle + Math.PI / 2}rad)`;
@@ -591,17 +590,17 @@ function showCatPaw(x, y, flyObj, isToughFly) {
 
     requestAnimationFrame(() => {
         paw.style.opacity = 1;
-        paw.style.transform = `translate(-50%, -50%) scale(0.75, 0.75) rotate(${angle - Math.PI/2}rad)`;
+        paw.style.transform = `translate(-50%, -50%) scale(0.75, 0.75) rotate(${angle - Math.PI / 2}rad)`;
     });
     setTimeout(() => {
         paw.style.opacity = 1;
-        paw.style.transform = `translate(calc(-50% + ${dx/distance*10}px), calc(-50% + ${dy/distance*10}px)) scale(0.75, 0.75) rotate(${angle - Math.PI/2}rad)`;
+        paw.style.transform = `translate(calc(-50% + ${dx / distance * 10}px), calc(-50% + ${dy / distance * 10}px)) scale(0.75, 0.75) rotate(${angle - Math.PI / 2}rad)`;
     }, 100);
 
     // 少し待ってフェードアウト
     setTimeout(() => {
         paw.style.opacity = 0;
-        paw.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${angle - Math.PI/2}rad)`;
+        paw.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${angle - Math.PI / 2}rad)`;
     }, 400);
 
     // 完全に消す
@@ -718,8 +717,8 @@ function clicked(flyObj) {
     scoreVel = Math.max(
         gravity,
         Math.min(
-            scoreVel + Math.floor(Math.pow(combo, 1/10)*9.8),
-            gravity*10
+            scoreVel + Math.floor(Math.pow(combo, 1 / 10) * 9.8),
+            gravity * 10
         )
     );
 
@@ -729,7 +728,7 @@ function clicked(flyObj) {
     startZoom(flappyCameraZoom, 0.75, 0.15);
 
     zoomHoldingTimer = 0;
-    zoomHoldingDuration = 0.15 + 0.3*(gravity + Math.floor(combo/5))/gravity;
+    zoomHoldingDuration = 0.15 + 0.3 * (gravity + Math.floor(combo / 5)) / gravity;
     // ズームを元に戻す処理は updateZoom()
 }
 
@@ -750,7 +749,7 @@ function createFly(avoidWatermelon = false) {
         state: "moving", // moving or stopped or turning or blocked or eating
         isOnWatermelon: false,
         timeOnWatermelon: 0,
-		speckTimer: 0, // 果汁エフェクトの間隔
+        speckTimer: 0, // 果汁エフェクトの間隔
         isToughFly: isToughFly,
         hp: isToughFly ? 2 : 1,
         maxHp: isToughFly ? 2 : 1,
@@ -921,25 +920,25 @@ function updateFlies(dt) {
     if (gameState === "result") return; // リザルト画面ではハエの動きを止める
 
     if (gameMode === "survival" && survivalState === "flyRaid") {
-            updateRaidFlyMovement(dt);
+        updateRaidFlyMovement(dt);
     } else {
         updateNormalFlyMovement(dt);
     }
 
     for (const fly of flies) {
         if (fly.state === "eating") {
-			fly.speckTimer += dt;
+            fly.speckTimer += dt;
 
-			if (fly.speckTimer > 0.12) {
-				fly.speckTimer = 0;
-				const centerX = fly.x + fly.el.offsetWidth / 2;
-				const centerY = fly.y + fly.el.offsetHeight / 2;
+            if (fly.speckTimer > 0.12) {
+                fly.speckTimer = 0;
+                const centerX = fly.x + fly.el.offsetWidth / 2;
+                const centerY = fly.y + fly.el.offsetHeight / 2;
 
-				const x = centerX + Math.cos(fly.angle) * fly.el.offsetHeight*0.5;
-				const y = centerY + Math.sin(fly.angle) * fly.el.offsetHeight*0.5;
-				spawnJuiceSpecks(x, y);
-			}
-		}
+                const x = centerX + Math.cos(fly.angle) * fly.el.offsetHeight * 0.5;
+                const y = centerY + Math.sin(fly.angle) * fly.el.offsetHeight * 0.5;
+                spawnJuiceSpecks(x, y);
+            }
+        }
 
         fly.el.style.left = fly.x + "px";
         fly.el.style.top = fly.y + "px";
@@ -953,9 +952,9 @@ function updateFlies(dt) {
 
         const wobble =
             fly.state === "moving" ? Math.sin(fly.t * 50) * 0.1 :
-            fly.state === "turning" ? Math.sin(fly.t * 50) * 0.05 :
-            fly.state === "eating" ? Math.sin(fly.t * 40) * 0.03 :
-            0;
+                fly.state === "turning" ? Math.sin(fly.t * 50) * 0.05 :
+                    fly.state === "eating" ? Math.sin(fly.t * 40) * 0.03 :
+                        0;
 
         fly.el.style.transform =
             `rotate(${fly.angle + wobble + Math.PI / 2}rad)`; // 画像は頭が上だが、右が0radなので90度回転させる
@@ -1003,7 +1002,7 @@ function drawEatGauge(ctx, x, y, radius, remainingRatio) {
     ctx.strokeStyle = "red";
     ctx.lineWidth = 2;
 
-    ctx.font = `bold ${Math.floor(radius*1.9)}px sans-serif`;
+    ctx.font = `bold ${Math.floor(radius * 1.9)}px sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.strokeText("!", x, y);
@@ -1051,7 +1050,7 @@ function updateFlappyChar(scoreVel, deltaTime) {
     flappyAngle = Math.atan2(scoreVel, flappyVelX)
 
     flappyChar.style.transform =
-        `translate(-50%, -50%) scale(${flappyCameraZoom}, ${flappyCameraZoom}) rotate(${-flappyAngle + Math.PI/2}rad)`;
+        `translate(-50%, -50%) scale(${flappyCameraZoom}, ${flappyCameraZoom}) rotate(${-flappyAngle + Math.PI / 2}rad)`;
 }
 
 function updateBackground(score) {
@@ -1098,7 +1097,7 @@ function drawStars(deltaTime) {
 }
 
 function drawFlappyGround(score) {
-    flappyGround.style.transform = 
+    flappyGround.style.transform =
         `translate(0, calc(${flappyChar.getBoundingClientRect().height / 2 + score * FLAPPY_PX_PER_UNIT * (1 / flappyCameraZoom)}px))`;
 }
 function drawFlappyScore(score) {
@@ -1246,7 +1245,7 @@ setInterval(() => {
                 score = 0;
                 scoreVel = 0;
             }
-            if (score > runBestScore ) {
+            if (score > runBestScore) {
                 isUpdatingBest = true;
                 runBestScore = score;
                 if (runBestScore > bestScores[gameMode]) {
@@ -1399,17 +1398,17 @@ setInterval(() => {
         }
     }
 
-	splashCtx.clearRect(0, 0, splashCanvas.width, splashCanvas.height);
-	for (let i = particles.length - 1; i >= 0; i--) {
-		const p = particles[i];
-		p.update();
-		if (p.life <= 0) {
-			particles.splice(i, 1);
-			continue;
-		}
-		p.draw();
-	}
-    
+    splashCtx.clearRect(0, 0, splashCanvas.width, splashCanvas.height);
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        if (p.life <= 0) {
+            particles.splice(i, 1);
+            continue;
+        }
+        p.draw();
+    }
+
     checkResize();
 
     drawComboGauge();
@@ -1428,4 +1427,4 @@ setInterval(() => {
         spawnWind(scoreVel, deltaTime);
         drawWind(scoreVel, deltaTime);
     }
-}, 1000/frameRate);
+}, 1000 / frameRate);
