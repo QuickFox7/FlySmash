@@ -4,6 +4,10 @@
 
 PC・スマートフォンの両方で遊べる、HTML・CSS・JavaScript で制作したゲームです。
 
+#### ゲームのプレイはこちらから
+
+webサイトリンク🔗：https://quickfox7.github.io/FlySmash/
+
 ## ゲーム概要
 
 画面上を動き回るハエをクリックして倒すと、スコアが上昇します。
